@@ -1,8 +1,8 @@
 """Added models for pc, vr, ps, auth, reservations
 
-Revision ID: e16865705d4b
+Revision ID: d1ac0b8e13ca
 Revises: 
-Create Date: 2024-05-23 20:52:25.946960
+Create Date: 2024-05-23 21:15:36.311326
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'e16865705d4b'
+revision: str = 'd1ac0b8e13ca'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -40,19 +40,19 @@ def upgrade() -> None:
                     sa.PrimaryKeyConstraint('id')
                     )
     op.create_table('pc_station',
-    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), sa.Identity(always=True, start=1000), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('ps_station',
-    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), sa.Identity(always=True, start=2000), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('vr_station',
-    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), sa.Identity(always=True, start=3000), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('reservation',
-    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), sa.Identity(always=True, start=1), nullable=False),
     sa.Column('station_id', sa.Integer(), nullable=False),
     sa.Column('status', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),

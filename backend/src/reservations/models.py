@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import MetaData, Integer, String, TIMESTAMP, ForeignKey, Table, Column
+from sqlalchemy import MetaData, Integer, TIMESTAMP, ForeignKey, Table, Column, Identity
 from backend.src.auth.models import user
 
 
@@ -8,7 +8,7 @@ metadata = MetaData()
 reservation = Table(
     'reservation',
     metadata,
-    Column('id', Integer, primary_key=True),
+    Column('id', Integer, Identity(start=1, always=True), primary_key=True),
     Column('station_id', Integer, nullable=False),
     Column('status', Integer, nullable=False),
     Column('user_id', ForeignKey(user.c.id)),
