@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 from backend.src.config import DB_USER, DB_NAME,DB_PASS, DB_PORT, DB_HOST
-from backend.src.auth.models import metadata as auth_metadata
+from backend.src.users.models import metadata as auth_metadata
 from backend.src.stations.models import metadata as stations_metadata
 from backend.src.reservations.models import metadata as reservations_metadata
 from backend.src.reviews.models import metadata as reviews_metadata

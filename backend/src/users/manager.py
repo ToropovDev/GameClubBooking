@@ -5,10 +5,10 @@ from celery import Celery
 from smtplib import SMTP_SSL
 from email.message import EmailMessage
 
-from backend.src.auth.models import User
+from backend.src.users.models import User
 from backend.src.config import SMTP_USER, SMTP_HOST, SMTP_PASS, SMTP_PORT, CELERY_BROKER_URL, USER_MANAGER_SECRET
 
-celery_app = Celery("auth", broker_url=CELERY_BROKER_URL)
+celery_app = Celery("users", broker_url=CELERY_BROKER_URL)
 
 
 def get_email(

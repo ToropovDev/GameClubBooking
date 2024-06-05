@@ -9,6 +9,8 @@ from backend.src.database import get_async_session
 from backend.src.stations.models import station
 from backend.src.reservations.models import reservation
 from backend.src.reservations.schemas import ReservationCreate, ReservationUpdate
+from backend.src.users.models import user
+from backend.src.users.utils import current_verified_user, is_admin, is_staff
 
 router = APIRouter(
     prefix="/reservations",
@@ -39,18 +41,20 @@ async def is_time_slot_available(station_id: int, start_time: datetime, end_time
     return not result.mappings().all()
 
 @router.get("/")
-async def get_all_reservations(session: AsyncSession = Depends(get_async_session)) -> dict:
+async def get_all_reservations(session: AsyncSession = Depends(get_async_session),
+                               current_user: user = Depends(current_verified_user)) -> dict:
     """
     Get all reservations
     """
     try:
-        query = select(reservation)
-        result = await session.execute(query)
-        data = [dict(row) for row in result.mappings().all()]
-        return {
-            "status": "ok",
-            "data": data,
-        }
+        if is_admin(current_user.id, session) or is_staff(current_user.id, session):
+            query = select(reservation)
+            result = await session.execute(query)
+            data = [dict(row) for row in result.mappings().all()]
+            return {
+                "status": "ok",
+                "data": data,
+            }
     except Exception as e:
         return {
             "status": "error",

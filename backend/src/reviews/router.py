@@ -4,11 +4,11 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select, insert, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.src.auth.config import current_verified_user
-from backend.src.auth.models import User
 from backend.src.database import get_async_session
 from backend.src.reviews.models import review
 from backend.src.reviews.schemas import ReviewCreate, ReviewUpdate
+from backend.src.users.models import User
+from backend.src.users.utils import current_verified_user
 
 router = APIRouter(
     prefix="/reviews",
@@ -49,7 +49,7 @@ async def create_review(review_create: ReviewCreate,
         stmt = insert(review).values(**review_data)
         await session.execute(stmt)
         await session.commit()
-        return review_create
+        return review_create.dict()
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -70,7 +70,10 @@ async def update_review(review_id: int, updated_review: ReviewUpdate,
             "data": {**existing_review["data"], **updated_review.dict()},
         }
     except HTTPException as e:
-        raise
+        return {
+            "status": "error",
+            "data": str(e),
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -90,7 +93,9 @@ async def delete_review(review_id: int, session: AsyncSession = Depends(get_asyn
             "data": existing_review["data"],
         }
     except HTTPException as e:
-        raise
+        return {
+            "status": "error",
+            "data": str(e),
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-

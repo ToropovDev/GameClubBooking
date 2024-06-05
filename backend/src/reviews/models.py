@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy import MetaData, Integer, Table, Column, Identity, String, ForeignKey, TIMESTAMP
-from backend.src.auth.models import user
+from backend.src.users.models import user
 
 metadata = MetaData()
 
