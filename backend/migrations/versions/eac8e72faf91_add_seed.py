@@ -6,7 +6,7 @@ Create Date: 2024-06-05 16:33:07.295879
 
 """
 from typing import Sequence, Union
-from backend.migrations.seed import seed_data
+from migrations.seed import seed_data
 import asyncio
 
 # revision identifiers, used by Alembic.
