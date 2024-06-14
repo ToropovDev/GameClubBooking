@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Button, Descriptions, Form, Input, Layout, Menu, message, Modal, Spin, theme} from 'antd';
 import {HomeOutlined, LogoutOutlined, UserOutlined, LaptopOutlined} from "@ant-design/icons";
 import {Link, useNavigate} from "react-router-dom";
+import UrlAddr from "../../Url/UrlAddr.js";
 
 
 const {Content, Footer, Sider} = Layout;
@@ -22,7 +23,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/users/me', {
+                const response = await axios.get(UrlAddr + '/users/me/', {
                     headers: {
                         "accept": "application/json",
                     },
@@ -42,7 +43,7 @@ const Profile = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post('http://localhost:8000/users/logout', {}, {withCredentials: true});
+            await axios.post(UrlAddr + '/users/logout/', {}, {withCredentials: true});
             message.success('Вы успешно вышли из системы');
             navigate('/');
         } catch (error) {
@@ -59,7 +60,7 @@ const Profile = () => {
     const handleEditProfile = async (values) => {
         try {
             await axios.patch(
-                'http://localhost:8000/users/me',
+                UrlAddr + '/users/me/',
                 {
                     password: values.password,
                     email: user.email,
@@ -80,7 +81,7 @@ const Profile = () => {
             );
             message.success('Profile updated successfully');
             setEditModalVisible(false);
-            const response = await axios.get('http://localhost:8000/users/me', {
+            const response = await axios.get(UrlAddr + '/users/me/', {
                 headers: {
                     "accept": "application/json",
                 },

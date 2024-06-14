@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Card, Spin, Row, Col, message, Menu, Layout, Descriptions, Button, Modal, Form, Input, theme, List, Rate} from 'antd';
 import {HomeOutlined, LaptopOutlined, LogoutOutlined, UserOutlined} from "@ant-design/icons";
 import {Link, useNavigate} from "react-router-dom";
+import UrlAddr from "../../Url/UrlAddr.js";
 
 const {Content, Footer, Sider} = Layout;
 
@@ -42,7 +43,7 @@ const {
     useEffect(() => {
         const fetchStations = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/stations', {withCredentials: true});
+                const response = await axios.get(UrlAddr + '/stations/', {withCredentials: true});
                 setStations(response.data);
             } catch (error) {
                 message.error('Failed to fetch stations');
@@ -60,7 +61,7 @@ const {
 
     const handleLogout = async () => {
         try {
-            await axios.post('http://localhost:8000/users/logout', {}, {withCredentials: true});
+            await axios.post(UrlAddr + '/users/logout/', {}, {withCredentials: true});
             message.success('Вы успешно вышли из системы');
             navigate('/');
         } catch (error) {
@@ -71,7 +72,7 @@ const {
 
     const handleViewReviews = async (stationId, stationName) => {
         try {
-            const response = await axios.get(`http://localhost:8000/reviews/by_station/${stationId}`, {withCredentials: true});
+            const response = await axios.get(UrlAddr + `/reviews/by_station/${stationId}`, {withCredentials: true});
             setSelectedStationReviews(response.data.data);
             setSelectedStationId(stationId);
             setSelectedStationName(stationName);
@@ -98,7 +99,7 @@ const {
                 comment,
             };
 
-            await axios.post('http://localhost:8000/reviews', data, {withCredentials: true});
+            await axios.post(UrlAddr + '/reviews/', data, {withCredentials: true});
             message.success('Review added successfully');
             setAddReviewModalVisible(false);
         } catch (error) {

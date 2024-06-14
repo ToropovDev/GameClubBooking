@@ -19,6 +19,7 @@ import {
 import dayjs from 'dayjs';
 import {HomeOutlined, LaptopOutlined, LogoutOutlined, UserOutlined} from "@ant-design/icons";
 import {Link, useNavigate} from "react-router-dom";
+import UrlAddr from "../../Url/UrlAddr.js";
 
 
 
@@ -59,7 +60,7 @@ const [reservations, setReservations] = useState([]);
 
     const handleLogout = async () => {
         try {
-            await axios.post('http://localhost:8000/users/logout', {}, {withCredentials: true});
+            await axios.post(UrlAddr + '/users/logout/', {}, {withCredentials: true});
             message.success('Вы успешно вышли из системы');
             navigate('/');
         } catch (error) {
@@ -72,8 +73,8 @@ const [reservations, setReservations] = useState([]);
         const fetchReservations = async () => {
             try {
                 const [reservationsResponse, stationsResponse] = await Promise.all([
-                    axios.get('http://localhost:8000/reservations/', {withCredentials: true}),
-                    axios.get('http://localhost:8000/stations/', {withCredentials: true}),
+                    axios.get(UrlAddr + '/reservations/', {withCredentials: true}),
+                    axios.get(UrlAddr + '/stations/', {withCredentials: true}),
                 ]);
 
                 const reservationsData = reservationsResponse.data.data;
@@ -143,7 +144,7 @@ const [reservations, setReservations] = useState([]);
                 start_time: formattedStartTime,
             };
 
-            const add_response = await axios.post('http://localhost:8000/reservations', data, {
+            const add_response = await axios.post(UrlAddr + '/reservations/', data, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -156,7 +157,7 @@ const [reservations, setReservations] = useState([]);
             setIsModalVisible(false);
 
             // Fetch updated reservations list
-            const response = await axios.get('http://localhost:8000/reservations/', {withCredentials: true});
+            const response = await axios.get(UrlAddr + '/reservations/', {withCredentials: true});
             setReservations(response.data.data);
         } catch (error) {
             message.error('Failed to create reservation');
@@ -165,10 +166,10 @@ const [reservations, setReservations] = useState([]);
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/reservations/${id}`, {withCredentials: true});
+            await axios.delete(UrlAddr + `/reservations/${id}`, {withCredentials: true});
             message.success('Reservation deleted successfully');
 
-            const response = await axios.get('http://localhost:8000/reservations/', {withCredentials: true});
+            const response = await axios.get(UrlAddr + '/reservations/', {withCredentials: true});
             setReservations(response.data.data);
         } catch (error) {
             message.error('Failed to delete reservation');
