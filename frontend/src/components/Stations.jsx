@@ -99,7 +99,7 @@ const {
                 comment,
             };
 
-            await axios.post(UrlAddr + '/reviews', data, {withCredentials: true});
+            await axios.post(UrlAddr + '/reviews/', data, {withCredentials: true});
             message.success('Review added successfully');
             setAddReviewModalVisible(false);
         } catch (error) {
