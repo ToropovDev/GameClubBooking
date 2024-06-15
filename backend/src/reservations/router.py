@@ -68,22 +68,22 @@ async def get_all_reservations(session: AsyncSession = Depends(get_async_session
 async def get_my_reservations(session: AsyncSession = Depends(get_async_session),
                                current_user: user = Depends(current_verified_user)) -> dict:
     """
-    Get all reservations
+    Get my reservations
     """
-    try:
-        if await is_admin(current_user.id, session) or await is_staff(current_user.id, session):
-            query = select(reservation).where(reservation.c.user_id == current_user.id)
-            result = await session.execute(query)
-            data = [dict(row) for row in result.mappings().all()]
-            return {
-                "status": "ok",
-                "data": data,
-            }
-    except Exception as e:
+    # try:
+    if await is_admin(current_user.id, session) or await is_staff(current_user.id, session):
+        query = select(reservation).where(reservation.c.user_id == current_user.id)
+        result = await session.execute(query)
+        data = [dict(row) for row in result.mappings().all()]
         return {
-            "status": "error",
-            "data": str(e),
+            "status": "ok",
+            "data": data,
         }
+    # except Exception as e:
+    #     return {
+    #         "status": "error",
+    #         "data": str(e),
+    #     }
 
 
 def get_date_object(date_str: str) -> datetime:

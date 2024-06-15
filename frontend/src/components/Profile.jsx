@@ -23,7 +23,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get(UrlAddr + '/users/me/', {
+                const response = await axios.get(UrlAddr + '/users/me', {
                     headers: {
                         "accept": "application/json",
                     },
