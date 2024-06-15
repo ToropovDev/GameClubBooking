@@ -43,7 +43,7 @@ const Profile = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post(UrlAddr + '/users/logout/', {}, {withCredentials: true});
+            await axios.post(UrlAddr + '/users/logout', {}, {withCredentials: true});
             message.success('Вы успешно вышли из системы');
             navigate('/');
         } catch (error) {
@@ -60,7 +60,7 @@ const Profile = () => {
     const handleEditProfile = async (values) => {
         try {
             await axios.patch(
-                UrlAddr + '/users/me/',
+                UrlAddr + '/users/me',
                 {
                     password: values.password,
                     email: user.email,
