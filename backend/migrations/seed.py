@@ -20,7 +20,7 @@ data = [
          "edit_reservations": True,
      }},
     {"id": 2,
-     "name": "admin",
+     "name": "user",
      "permissions": {
          "edit_all": False,
          "edit_reservations": False,
